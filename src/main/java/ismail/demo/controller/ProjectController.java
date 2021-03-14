@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@CrossOrigin(origins = "http://localhost:3000",maxAge = -1L)
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/projects")
 public class ProjectController {
 
-    private ProjectService projectService;
-    private MapValidationErrorService mapValidationErrorService;
+    private final ProjectService projectService;
+    private final MapValidationErrorService mapValidationErrorService;
 
     @Autowired
     public ProjectController(ProjectService projectService, MapValidationErrorService mapValidationErrorService) {
@@ -32,7 +32,8 @@ public class ProjectController {
         if (errorMap != null) return errorMap;
 
         projectService.saveOrUpdateProject(null, project);
-        return new ResponseEntity<Project>(project, HttpStatus.CREATED);
+        System.out.println("post: "+project);
+        return new ResponseEntity<>(project, HttpStatus.CREATED);
     }
 
     @GetMapping("{projectId}")
@@ -40,7 +41,7 @@ public class ProjectController {
 
         Project project = projectService.findProjectByIdentifier(projectId);
 
-        return new ResponseEntity<Project>(project, HttpStatus.OK);
+        return new ResponseEntity<>(project, HttpStatus.OK);
     }
 
     @GetMapping(value = "")
@@ -51,9 +52,8 @@ public class ProjectController {
     @DeleteMapping("{projectId}")
     public ResponseEntity<?> deleteProject(@PathVariable String projectId) {
 
-        Project project = projectService.findProjectByIdentifier(projectId);
         projectService.deleteProjectByIdentifier(projectId);
-        return new ResponseEntity<String>("Project with ID: '" + projectId + "' was deleted", HttpStatus.OK);
+        return new ResponseEntity<>("Project with ID: '" + projectId + "' was deleted", HttpStatus.OK);
     }
 
     @PutMapping("{projectId}")
@@ -64,7 +64,7 @@ public class ProjectController {
         if (errorMap != null) return errorMap;
 
         projectService.saveOrUpdateProject(projectId, project);
-
-        return new ResponseEntity<Project>(project, HttpStatus.OK);
+        System.out.println("put: "+project);
+        return new ResponseEntity<>(project, HttpStatus.OK);
     }
 }
