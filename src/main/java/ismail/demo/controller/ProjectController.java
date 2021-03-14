@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+@CrossOrigin(origins = "http://localhost:3000",maxAge = -1L)
 @RestController
 @RequestMapping("/api/projects")
 public class ProjectController {

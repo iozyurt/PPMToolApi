@@ -20,7 +20,7 @@ public class ProjectService {
         //Logic
         if (projectId != null) {
             Project projectOptional = projectRepository.findByProjectIdentifier(project.getProjectIdentifier());
-            if (projectId.equals(project.getId())) throw new ProjectIdException("Project ID 's not the same");
+            if (!projectId.equals(project.getId())) throw new ProjectIdException("Project ID 's not the same");
             else if (projectOptional == null)
                 throw new ProjectNotFoundException("Project ID: '" + projectOptional.getProjectIdentifier() + "' does not exists");
 
